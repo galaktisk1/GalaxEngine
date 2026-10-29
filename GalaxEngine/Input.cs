@@ -3,9 +3,9 @@ using static Raylib_cs.Raylib;
 namespace GalaxEngine;
 public static class Input
 {
-    public static List<KeyboardKey> KeysDown = new List<KeyboardKey>();
-    public static List<KeyboardKey> KeysDownThisFrame = new List<KeyboardKey>();
-    public static List<KeyboardKey> KeysUpThisFrame = new List<KeyboardKey>();
+    private static readonly List<KeyboardKey> KeysDown = new List<KeyboardKey>();
+    private static readonly List<KeyboardKey> KeysDownThisFrame = new List<KeyboardKey>();
+    private static readonly List<KeyboardKey> KeysUpThisFrame = new List<KeyboardKey>();
     public static void Update()
     {
         KeysDownThisFrame.Clear();
@@ -24,4 +24,7 @@ public static class Input
             
         }
     }
+    public static bool GetKey(KeyboardKey key) => KeysDown.Contains(key);
+    public static bool GetKeyDown(KeyboardKey key) => KeysDownThisFrame.Contains(key);
+    public static bool GetKeyUp(KeyboardKey key) => KeysUpThisFrame.Contains(key);
 }

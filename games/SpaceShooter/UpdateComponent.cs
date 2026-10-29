@@ -9,13 +9,13 @@ public class UpdateComponent : Component
     public Vector2 Position = new Vector2(250, 250);
     public override void Update()
     {
-        if (Input.KeysDown.Contains(KeyboardKey.Up) || Input.KeysDown.Contains(KeyboardKey.W))
+        if (Input.GetKey(KeyboardKey.Up) || Input.GetKey(KeyboardKey.W))
             Position.Y -= 1;
-        if (Input.KeysDown.Contains(KeyboardKey.Down) || Input.KeysDown.Contains(KeyboardKey.S))
+        if (Input.GetKey(KeyboardKey.Down) || Input.GetKey(KeyboardKey.S))
             Position.Y += 1;
-        if (Input.KeysDown.Contains(KeyboardKey.Left) || Input.KeysDown.Contains(KeyboardKey.A))
+        if (Input.GetKey(KeyboardKey.Left) || Input.GetKey(KeyboardKey.A))
             Position.X -= 1;
-        if (Input.KeysDown.Contains(KeyboardKey.Right) || Input.KeysDown.Contains(KeyboardKey.D))
+        if (Input.GetKey(KeyboardKey.Right) || Input.GetKey(KeyboardKey.D))
             Position.X += 1;
     }
 }
