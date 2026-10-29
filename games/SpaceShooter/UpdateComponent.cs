@@ -21,7 +21,7 @@ public class UpdateComponent : GameplayComponent
             direction += Vector2.Left;
         if (Input.GetKey(KeyboardKey.Right) || Input.GetKey(KeyboardKey.D))
             direction += Vector2.Right;
-        Transform.Position += direction.Normalized * speed;
+        Transform.Position += direction.Normalized * speed * Time.DeltaTime;
         direction = Vector2.Zero;
     }
 }

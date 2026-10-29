@@ -15,6 +15,7 @@ public static class Engine
         SetTargetFPS(60);
         while (!WindowShouldClose())
         {
+            Time.Update();
             Input.Update();
             CurrentScene.Update();
             BeginDrawing();

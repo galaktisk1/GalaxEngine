@@ -6,7 +6,7 @@ public static class Input
     private static readonly List<KeyboardKey> KeysDown = new List<KeyboardKey>();
     private static readonly List<KeyboardKey> KeysDownThisFrame = new List<KeyboardKey>();
     private static readonly List<KeyboardKey> KeysUpThisFrame = new List<KeyboardKey>();
-    public static void Update()
+    internal static void Update()
     {
         KeysDownThisFrame.Clear();
         KeysUpThisFrame.Clear();
