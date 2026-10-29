@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/games/">
+    <Project Path="games/SpaceShooter/SpaceShooter.csproj" />
+  </Folder>
+  <Project Path="GalaxEngine/GalaxEngine.csproj" />
+</Solution>
