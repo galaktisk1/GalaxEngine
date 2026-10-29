@@ -4,10 +4,14 @@ using static Raylib_cs.Raylib;
 public static class Engine
 {
     public static Scene CurrentScene = null!;
-    public static void Start<T>() where T : Scene, new()
+    public static int Width => GetScreenWidth();
+    public static int Height => GetScreenHeight();
+    public static Vector2 Center => new Vector2(Width / 2f, Height / 2f);
+    public static void Start<T>(int width = 800, int height = 600) where T : Scene, new()
     {
         CurrentScene = new T();
-        InitWindow(500, 500, "WOW");
+        SetConfigFlags(ConfigFlags.ResizableWindow);
+        InitWindow(width, height, "GameLoop");
         SetTargetFPS(60);
         CurrentScene.Start();
         while (!WindowShouldClose())

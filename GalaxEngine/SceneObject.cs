@@ -9,14 +9,14 @@ public abstract class SceneObject
         Components.Add(component);
         component.Owner = this;
     }
-    public T GetComponent<T>() where T : Component
+    public T? GetComponent<T>() where T : Component
     {
         foreach (var component in Components)
         {
             if (component is T found)
                 return found;
         }
-        return null!;
+        return null;
     }
     public virtual void Start() {
         foreach (var component in Components)
