@@ -5,20 +5,23 @@ using Raylib_cs;
 namespace SpaceShooter;
 public class UpdateComponent : GameplayComponent
 {   
-    public Vector2 Position;
+    public float speed = 2;
     public override void Start()
     {
-        Position = Engine.Center;
+        Transform.Position = Engine.Center;
     }
     public override void Update()
     {
+        var direction = Vector2.Zero;
         if (Input.GetKey(KeyboardKey.Up) || Input.GetKey(KeyboardKey.W))
-            Position.Y -= 1;
+            direction += Vector2.Up;
         if (Input.GetKey(KeyboardKey.Down) || Input.GetKey(KeyboardKey.S))
-            Position.Y += 1;
+            direction += Vector2.Down;
         if (Input.GetKey(KeyboardKey.Left) || Input.GetKey(KeyboardKey.A))
-            Position.X -= 1;
+            direction += Vector2.Left;
         if (Input.GetKey(KeyboardKey.Right) || Input.GetKey(KeyboardKey.D))
-            Position.X += 1;
+            direction += Vector2.Right;
+        Transform.Position += direction.Normalized * speed;
+        direction = Vector2.Zero;
     }
 }

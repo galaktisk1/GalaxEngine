@@ -13,7 +13,6 @@ public static class Engine
         SetConfigFlags(ConfigFlags.ResizableWindow);
         InitWindow(width, height, "GameLoop");
         SetTargetFPS(60);
-        CurrentScene.Start();
         while (!WindowShouldClose())
         {
             Input.Update();

@@ -10,12 +10,12 @@ public class Polygon : EngineComponent
 
     public override void Draw()
     {
-        DrawTriangleFan(Points.Select(p => (System.Numerics.Vector2)p).ToArray(), Points.Count, FillColor);
+        DrawTriangleFan(Points.Select(p => (System.Numerics.Vector2)(p + Transform.Position)).ToArray(), Points.Count, FillColor);
         if (LineWidth > 0)
             for (int i = 0; i < Points.Count; i++)
             {
-                Vector2 start = Points[i];
-                Vector2 end = Points[(i + 1) % Points.Count];
+                Vector2 start = Points[i] + Transform.Position;
+                Vector2 end = Points[(i + 1) % Points.Count] + Transform.Position;
                 DrawLineEx(start, end, LineWidth, StrokeColor);
             }
     }
