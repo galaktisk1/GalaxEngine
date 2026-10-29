@@ -1,4 +1,6 @@
 namespace GalaxEngine;
+// scene object is base class for all objects in a scene
+// GameObject and LogicObject will inherit from this class
 public abstract class SceneObject
 {
     public List<Component> Components = new List<Component>();
@@ -6,6 +8,15 @@ public abstract class SceneObject
     {
         Components.Add(component);
         component.Owner = this;
+    }
+    public T GetComponent<T>() where T : Component
+    {
+        foreach (var component in Components)
+        {
+            if (component is T found)
+                return found;
+        }
+        return null!;
     }
     public virtual void Start() {
         foreach (var component in Components)
