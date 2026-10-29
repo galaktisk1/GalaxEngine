@@ -9,6 +9,7 @@ public static class Engine
         SetTargetFPS(60);
         while (!WindowShouldClose())
         {
+            Input.Update();
             update();
             BeginDrawing();
             ClearBackground(Color.White);

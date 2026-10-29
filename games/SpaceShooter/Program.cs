@@ -11,7 +11,14 @@ class Program
 
     static void Update()
     {
-        position.X += 1;
+        if (Input.KeysDown.Contains(KeyboardKey.Up) || Input.KeysDown.Contains(KeyboardKey.W))
+            position.Y -= 1;
+        if (Input.KeysDown.Contains(KeyboardKey.Down) || Input.KeysDown.Contains(KeyboardKey.S))
+            position.Y += 1;
+        if (Input.KeysDown.Contains(KeyboardKey.Left) || Input.KeysDown.Contains(KeyboardKey.A))
+            position.X -= 1;
+        if (Input.KeysDown.Contains(KeyboardKey.Right) || Input.KeysDown.Contains(KeyboardKey.D))
+            position.X += 1;
     }
 
     static void Draw()
