@@ -1,14 +1,16 @@
 
 using GalaxEngine;
 using Raylib_cs;
+using System.Collections;
 
 namespace SpaceShooter;
 public class UpdateComponent : GameplayComponent
 {   
-    public float speed = 2;
+    public float speed = 2 * 60; // due to 60 frames per second
     public override void Start()
     {
         Transform.Position = Engine.Center;
+        StartCoroutine(Fire());
     }
     public override void Update()
     {
@@ -21,7 +23,16 @@ public class UpdateComponent : GameplayComponent
             direction += Vector2.Left;
         if (Input.GetKey(KeyboardKey.Right) || Input.GetKey(KeyboardKey.D))
             direction += Vector2.Right;
+        // due to Vector2 being a struct, this is a copy of Transform.Position 
+        // and not a reference
         Transform.Position += direction.Normalized * speed * Time.DeltaTime;
-        direction = Vector2.Zero;
+    }
+    private IEnumerator Fire()
+    {
+        while (true)
+            {
+                Engine.CurrentScene.Instantiate(new LaserGameObject(), Transform.Position);
+                yield return new WaitForSeconds(0.2f);
+            }
     }
 }

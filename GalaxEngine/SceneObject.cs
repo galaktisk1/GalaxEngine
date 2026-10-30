@@ -24,9 +24,7 @@ public abstract class SceneObject
     }
     public virtual void Update() {
         foreach (var component in Components)
-        {
             component.Update();
-        }
         // this is seperate from regular Update
         foreach (var component in Components)
             component.UpdateCoroutines();

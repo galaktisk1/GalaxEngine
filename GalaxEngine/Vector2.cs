@@ -52,5 +52,7 @@ public struct Vector2
 
     // this is here so raylib can implicitly convert Vector2 to System.Numerics.Vector2
     public static implicit operator System.Numerics.Vector2(Vector2 v) => new System.Numerics.Vector2(v.x, v.y);
+    // exactly the same thing, but in the opposite direction
+    public static implicit operator Vector2(System.Numerics.Vector2 v) => new Vector2(v.X, v.Y);
 
 }
