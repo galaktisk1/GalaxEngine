@@ -11,6 +11,8 @@ public class UpdateComponent : GameplayComponent
     {
         Transform.Position = Engine.Center;
         StartCoroutine(Fire());
+        // anything i wanna test or debug
+        StartCoroutine(Testing());
     }
     public override void Update()
     {
@@ -34,5 +36,14 @@ public class UpdateComponent : GameplayComponent
                 Engine.CurrentScene.Instantiate(new LaserGameObject(), Transform.Position);
                 yield return new WaitForSeconds(0.2f);
             }
+    }
+
+    private IEnumerator Testing()
+    {
+        while (true)
+        {
+            Console.WriteLine(Engine.CurrentScene.SceneObjects.Count);
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

@@ -21,6 +21,8 @@ public static class Engine
             BeginDrawing();
             ClearBackground(Color.White);
             CurrentScene.Draw();
+            // debug fps
+            DrawFPS(10, 10);
             EndDrawing();
         }
         CloseWindow();

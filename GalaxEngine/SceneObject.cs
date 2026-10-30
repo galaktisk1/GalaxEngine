@@ -4,6 +4,7 @@ namespace GalaxEngine;
 public abstract class SceneObject
 {
     public List<Component> Components = new List<Component>();
+    public bool MarkForDestroy { get; private set; }
     public void AddComponent(Component component)
     {
         Components.Add(component);
@@ -28,5 +29,9 @@ public abstract class SceneObject
         // this is seperate from regular Update
         foreach (var component in Components)
             component.UpdateCoroutines();
+    }
+    public void Destroy()
+    {
+        MarkForDestroy = true;
     }
 }

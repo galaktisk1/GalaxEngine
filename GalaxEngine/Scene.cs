@@ -24,6 +24,11 @@ public abstract class Scene
         }
         foreach (var sceneObject in SceneObjects)
             sceneObject.Update();
+
+        foreach (var sceneObject in SceneObjects.Where(o => o.MarkForDestroy))
+            foreach (var component in sceneObject.Components)
+                component.OnDestroy();
+        SceneObjects.RemoveAll(o => o.MarkForDestroy);
     }
     public virtual void Draw() {
         foreach (var sceneObject in SceneObjects)

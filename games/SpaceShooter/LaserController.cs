@@ -6,5 +6,7 @@ public class LaserController : GameplayComponent
     public override void Update()
     {
         Transform.Position += Vector2.Up * speed * Time.DeltaTime;
+        if (Transform.Position.Y < -20)
+            Owner.Destroy();
     }
 }
