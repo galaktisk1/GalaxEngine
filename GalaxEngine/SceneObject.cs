@@ -5,6 +5,9 @@ public abstract class SceneObject
 {
     public List<Component> Components = new List<Component>();
     public bool MarkForDestroy { get; private set; }
+    public SceneObject? Parent { get; private set; }
+    private readonly List<SceneObject> children = new List<SceneObject>();
+    public IReadOnlyList<SceneObject> Children => children;
     public void AddComponent(Component component)
     {
         Components.Add(component);
@@ -19,6 +22,16 @@ public abstract class SceneObject
         }
         return null;
     }
+    public void SetParent(SceneObject? newParent)
+    {
+        if (Parent == newParent) return;
+        for (var p = newParent; p != null; p = p.Parent)
+            if (p == this)
+                throw new InvalidOperationException("Cannot set parent to a child of this object.");
+        Parent?.children.Remove(this);
+        Parent = newParent;
+        Parent?.children.Add(this);
+    }
     public virtual void Start() {
         foreach (var component in Components)
             component.Start();
@@ -32,6 +45,9 @@ public abstract class SceneObject
     }
     public void Destroy()
     {
+        if (MarkForDestroy) return;
         MarkForDestroy = true;
+        foreach (var child in children)
+            child.Destroy();
     }
 }

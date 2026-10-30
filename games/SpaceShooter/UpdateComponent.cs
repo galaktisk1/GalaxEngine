@@ -10,6 +10,7 @@ public class UpdateComponent : GameplayComponent
     public override void Start()
     {
         Transform.Position = Engine.Center;
+        Transform.Scale = new Vector2(0.5f, 0.5f);
         StartCoroutine(Fire());
         // anything i wanna test or debug
         StartCoroutine(Testing());
@@ -28,6 +29,7 @@ public class UpdateComponent : GameplayComponent
         // due to Vector2 being a struct, this is a copy of Transform.Position 
         // and not a reference
         Transform.Position += direction.Normalized * speed * Time.DeltaTime;
+        Transform.Rotation += 2f * Time.DeltaTime;
     }
     private IEnumerator Fire()
     {
