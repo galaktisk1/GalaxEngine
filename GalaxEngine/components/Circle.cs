@@ -9,6 +9,6 @@ public class Circle : EngineComponent
 
     public override void Draw()
     {
-        DrawCircleV(Transform.Position, Radius * Transform.Scale.X, FillColor);
+        DrawCircleV(Transform.WorldPosition, Radius * Transform.Scale.X, FillColor);
     }
 }

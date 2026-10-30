@@ -14,7 +14,7 @@ public class Polygon : EngineComponent
     {
         if (Points.Count < 3)
             return;
-        var matrix = Transform.LocalMatrix;
+        var matrix = Transform.WorldMatrix;
         var points = Points.Select(p => System.Numerics.Vector2.Transform(p, matrix)).ToArray();
         // safe guard for if the points are not in counter-clockwise order
         if (SignedArea(points) > 0)

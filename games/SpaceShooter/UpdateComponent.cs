@@ -29,7 +29,8 @@ public class UpdateComponent : GameplayComponent
         // due to Vector2 being a struct, this is a copy of Transform.Position 
         // and not a reference
         Transform.Position += direction.Normalized * speed * Time.DeltaTime;
-        Transform.Rotation += 2f * Time.DeltaTime;
+        if (Input.GetKey(KeyboardKey.Q)) Transform.Rotation -= 2f * Time.DeltaTime;
+        if (Input.GetKey(KeyboardKey.E)) Transform.Rotation += 2f * Time.DeltaTime;
     }
     private IEnumerator Fire()
     {
