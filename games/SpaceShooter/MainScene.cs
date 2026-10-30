@@ -5,13 +5,13 @@ public class MainScene : Scene
 {
     public MainScene()
     {
-        var rock = new GameObject();
-        rock.AddComponent(new Polygon
+        var planet = new GameObject();
+        planet.AddComponent(new Circle
         {
-            Points = [new(100, 100), new(60,100), new(140,160)],
+            Radius = 40,
             FillColor = Color.Gray,
         });
-        Instantiate(rock);
+        Instantiate(planet);
         Instantiate(new MainGameObject());
     }
 }
