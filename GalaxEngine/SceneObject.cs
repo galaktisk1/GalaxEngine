@@ -11,6 +11,8 @@ public abstract class SceneObject
     public IReadOnlyList<SceneObject> Children => children;
     public void AddComponent(Component component)
     {
+        if (component.Owner != null)
+            throw new InvalidOperationException("Component already has an owner.");
         components.Add(component);
         component.Owner = this;
     }

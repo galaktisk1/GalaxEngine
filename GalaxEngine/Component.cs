@@ -2,7 +2,7 @@ namespace GalaxEngine;
 using System.Collections;
 public abstract class Component
 {
-    public SceneObject Owner = null!;
+    public SceneObject Owner { get; internal set; } = null!;
     public bool HasStarted { get; internal set; }
     private readonly List<IEnumerator> coroutines = new List<IEnumerator>();
 
