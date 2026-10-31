@@ -23,5 +23,6 @@ public class MainScene : Scene
         });
         nose.SetParent(ship);
         Instantiate(nose);
+        Instantiate(new TestTextLabel());
     }
 }

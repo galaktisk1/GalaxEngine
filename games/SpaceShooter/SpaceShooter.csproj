@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\GalaxEngine\GalaxEngine.csproj" />
+    <None Include="assets\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <PropertyGroup>

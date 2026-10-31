@@ -9,6 +9,16 @@ public class TextLabel : EngineComponent
     public int FontSize { get; set; } = 10;
     public TextAlign Align { get; set; } = TextAlign.Left;
     
+    public string? FontPath { get; set; } = null;
+    private Font font;
+
+    public override void Start()
+    {
+        if (FontPath != null)
+            font = Fonts.Get(FontPath, FontSize);
+        else
+            font = GetFontDefault();
+    }
 
     public override void Draw()
     {
@@ -17,12 +27,12 @@ public class TextLabel : EngineComponent
         switch (Align)
         {
             case TextAlign.Center:
-                x -= MeasureText(Text, FontSize) / 2;
+                x -= (int)(MeasureTextEx(font, Text, FontSize, 1).X / 2);
                 break;
             case TextAlign.Right:
-                x -= MeasureText(Text, FontSize);
+                x -= (int)MeasureTextEx(font, Text, FontSize, 1).X;
                 break;
         }
-        DrawText(Text, x, y, FontSize, Color);
+        DrawTextEx(font, Text, new Vector2(x, y), FontSize, 1, Color);
     }
 }

@@ -25,6 +25,7 @@ public static class Engine
             DrawFPS(10, 10);
             EndDrawing();
         }
+        Fonts.UnloadAll();
         CloseWindow();
     }
 }
