@@ -29,7 +29,17 @@ public class Transform : EngineComponent
         : LocalMatrix;
 
     public Vector2 WorldPosition => WorldMatrix.Translation;
-    
-    private Matrix3x2 m => WorldMatrix;
-    public float WorldRotation => (float)Math.Atan2(m.M21, m.M11);
+    public float WorldRotation
+    {
+        get
+        {
+            var m = WorldMatrix;
+            return MathF.Atan2(m.M12, m.M11);
+        }
+    }
+
+    public Vector2 Up => new Vector2(MathF.Sin(WorldRotation), -MathF.Cos(WorldRotation));
+    public Vector2 Right => new Vector2(MathF.Cos(WorldRotation), MathF.Sin(WorldRotation));
+    public Vector2 Down => -Up;
+    public Vector2 Left => -Right;
 }

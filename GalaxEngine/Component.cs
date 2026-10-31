@@ -3,8 +3,11 @@ using System.Collections;
 public abstract class Component
 {
     public SceneObject Owner = null!;
+    public bool HasStarted { get; internal set; }
     private readonly List<IEnumerator> coroutines = new List<IEnumerator>();
 
+    public GameObject GameObject => Owner as GameObject 
+    ?? throw new InvalidOperationException($"{GetType().Name} needs a GameObject, but it's on a LogicObject");
     public Transform Transform => Owner is GameObject gameObject 
     ? gameObject.Transform
     : throw new InvalidOperationException($"{GetType().Name} needs a GameObject, but it's on a LogicObject");

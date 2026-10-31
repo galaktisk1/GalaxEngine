@@ -36,7 +36,12 @@ public class UpdateComponent : GameplayComponent
     {
         while (true)
             {
-                Engine.CurrentScene.Instantiate(new LaserGameObject(), Transform.Position);
+                var laser = Engine.CurrentScene.Instantiate(new LaserGameObject(), Transform.Position);
+                laser.Transform.Position = Transform.WorldPosition + Transform.Up * 100;
+                laser.Transform.Rotation = Transform.WorldRotation;
+                var laserComp = laser.GetComponent<LaserController>()!;
+                laserComp.Direction = Transform.Up;
+
                 yield return new WaitForSeconds(0.2f);
             }
     }

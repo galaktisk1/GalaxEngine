@@ -3,19 +3,20 @@ namespace GalaxEngine;
 // GameObject and LogicObject will inherit from this class
 public abstract class SceneObject
 {
-    public List<Component> Components = new List<Component>();
+    public IReadOnlyList<Component> Components => components;
+    private readonly List<Component> components = new List<Component>();
     public bool MarkForDestroy { get; private set; }
     public SceneObject? Parent { get; private set; }
     private readonly List<SceneObject> children = new List<SceneObject>();
     public IReadOnlyList<SceneObject> Children => children;
     public void AddComponent(Component component)
     {
-        Components.Add(component);
+        components.Add(component);
         component.Owner = this;
     }
     public T? GetComponent<T>() where T : Component
     {
-        foreach (var component in Components)
+        foreach (var component in components)
         {
             if (component is T found)
                 return found;
@@ -32,15 +33,23 @@ public abstract class SceneObject
         Parent = newParent;
         Parent?.children.Add(this);
     }
-    public virtual void Start() {
-        foreach (var component in Components)
+    internal virtual void Start() {
+        foreach (var component in components.ToList())
+        {
+            if (component.HasStarted) continue;
+            component.HasStarted = true;
             component.Start();
+        }
     }
-    public virtual void Update() {
-        foreach (var component in Components)
+    internal virtual void Update() {
+        // something to know for later, this doesnt scale well
+        // its fine for so many components, 
+        // but could become a performance issue with a large number of components
+        Start();
+        foreach (var component in components.ToList())
             component.Update();
         // this is seperate from regular Update
-        foreach (var component in Components)
+        foreach (var component in components.ToList())
             component.UpdateCoroutines();
     }
     public void Destroy()
