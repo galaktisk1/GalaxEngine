@@ -1,5 +1,5 @@
 using GalaxEngine;
-public class LaserController : GameplayComponent
+public class LaserController : Component
 {
     public float speed = 5 * 60; 
     public Vector2 Direction = Vector2.Up;

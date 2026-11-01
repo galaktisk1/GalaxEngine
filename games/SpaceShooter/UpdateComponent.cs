@@ -4,7 +4,7 @@ using Raylib_cs;
 using System.Collections;
 
 namespace SpaceShooter;
-public class UpdateComponent : GameplayComponent
+public class UpdateComponent : Component
 {   
     public float speed = 2 * 60; // due to 60 frames per second
     public override void Start()
