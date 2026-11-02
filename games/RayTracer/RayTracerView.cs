@@ -9,6 +9,7 @@ class RayTracerView : Component
     const int Height = 400;
     private Color[] pixels = new Color[Width * Height];
     private Texture2D texture;
+    private Tracer tracer = new Tracer(Width, Height);
 
     public override void Start()
     {
@@ -19,9 +20,8 @@ class RayTracerView : Component
         {
             for (int x = 0; x < Width; x++)
             {
-                float u = x / (float)(Width - 1);
-                float v = y / (float)(Height - 1);
-                pixels[y * Width + x] = new Color((int)(u * 255), (int)(v * 255), 0, 255);
+                Vector3 color = tracer.TracePixel(x, y);
+                pixels[y * Width + x] = ToColor(tracer.TracePixel(x, y));
             }
         }
     }
@@ -35,4 +35,10 @@ class RayTracerView : Component
         Console.WriteLine("Destroying RayTracerView");
         UnloadTexture(texture);
     }
+
+    private static Color ToColor(Vector3 c) => new Color(
+    (int)(Math.Clamp(c.X, 0, 1) * 255),
+    (int)(Math.Clamp(c.Y, 0, 1) * 255),
+    (int)(Math.Clamp(c.Z, 0, 1) * 255),
+    255);
 }
