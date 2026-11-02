@@ -42,3 +42,14 @@ public abstract class Component
     public virtual void Draw() { }
     public virtual void OnDestroy() { }
 }
+
+// Below are descriptions for specialized engine-level component types
+public abstract class GameplayComponent : Component
+{
+    private protected GameplayComponent() { }
+}
+
+public abstract class EngineComponent : Component
+{
+    private protected EngineComponent() { }
+}

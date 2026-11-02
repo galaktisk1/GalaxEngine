@@ -1,4 +1,5 @@
 using GalaxEngine;
+namespace SpaceShooter;
 public class LaserController : Component
 {
     public float speed = 5 * 60; 

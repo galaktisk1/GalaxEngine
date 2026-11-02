@@ -1,0 +1,25 @@
+namespace GalaxEngine;
+public static class SceneManager {
+    public static Scene CurrentScene { get; private set; } = null!;
+
+    private static Func<Scene>? nextScene;
+
+    internal static void Update() {
+        if (nextScene != null) {
+            CurrentScene = nextScene();
+            nextScene = null;
+        }
+    }
+
+    public static void LoadScene<T>(bool additive = false) where T : Scene, new() {
+        if (!additive) {
+            nextScene = () => new T();
+        }
+        else {
+            var tempScene = new T();
+            foreach (var gameObject in tempScene.SceneObjects) {
+                CurrentScene!.SceneObjects.Add(gameObject);
+            }
+        }
+    }
+}

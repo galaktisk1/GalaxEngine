@@ -36,7 +36,7 @@ public class UpdateComponent : Component
     {
         while (true)
             {
-                var laser = Engine.CurrentScene.Instantiate(new LaserGameObject(), Transform.Position);
+                var laser = SceneManager.CurrentScene.Instantiate(new LaserGameObject(), Transform.Position);
                 laser.Transform.Position = Transform.WorldPosition + Transform.Up * 100;
                 laser.Transform.Rotation = Transform.WorldRotation;
                 var laserComp = laser.GetComponent<LaserController>()!;
@@ -50,7 +50,7 @@ public class UpdateComponent : Component
     {
         while (true)
         {
-            Console.WriteLine(Engine.CurrentScene.SceneObjects.Count);
+            Console.WriteLine(SceneManager.CurrentScene.SceneObjects.Count);
             yield return new WaitForSeconds(1f);
         }
     }
