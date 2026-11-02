@@ -6,6 +6,8 @@ public static class SceneManager {
 
     internal static void Update() {
         if (nextScene != null) {
+            if (CurrentScene != null)
+                CurrentScene.Unload();
             CurrentScene = nextScene();
             nextScene = null;
         }

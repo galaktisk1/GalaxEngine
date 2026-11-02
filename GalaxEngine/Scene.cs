@@ -25,6 +25,15 @@ public abstract class Scene
         foreach (var sceneObject in SceneObjects)
             sceneObject.Update();
 
+        RemoveDestroyed();
+    }
+    public virtual void Draw() {
+        foreach (var sceneObject in SceneObjects)
+            if (sceneObject is GameObject gameObject)
+                gameObject.Draw();
+    }
+    private void RemoveDestroyed()
+    {
         foreach (var sceneObject in SceneObjects.Where(o => o.MarkForDestroy))
         {
             sceneObject.SetParent(null);
@@ -33,9 +42,16 @@ public abstract class Scene
         }
         SceneObjects.RemoveAll(o => o.MarkForDestroy);
     }
-    public virtual void Draw() {
+
+    internal void Unload()
+    {
         foreach (var sceneObject in SceneObjects)
-            if (sceneObject is GameObject gameObject)
-                gameObject.Draw();
+        {
+            sceneObject.SetParent(null);
+            foreach (var component in sceneObject.Components)
+                component.OnDestroy();
+        }
+        SceneObjects.Clear();
+        pending.Clear();
     }
 }
