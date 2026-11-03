@@ -6,13 +6,15 @@ public struct Triangle
     public Vector3 B { get; }
     public Vector3 C { get; }
     public Vector3 Color { get; }
+    public float Reflectivity { get; }
 
-    public Triangle(Vector3 a, Vector3 b, Vector3 c, Vector3 color)
+    public Triangle(Vector3 a, Vector3 b, Vector3 c, Vector3 color, float reflectivity = 0.0f)
     {
         A = a;
         B = b;
         C = c;
         Color = color;
+        Reflectivity = reflectivity;
         Normal = Vector3.Cross(A - B, C - B).Normalized;
         D = -Vector3.Dot(Normal, A);
         Area = Vector3.Cross(B - A, C - A).Magnitude;
@@ -21,7 +23,8 @@ public struct Triangle
         RotateY(A, angle),
         RotateY(B, angle),
         RotateY(C, angle),
-        Color
+        Color,
+        Reflectivity
     );
     public Vector3 Normal {get;}
     public float D {get;}

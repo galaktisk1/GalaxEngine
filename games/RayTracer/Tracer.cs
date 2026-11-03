@@ -10,8 +10,8 @@ public class Tracer
         Width = width;
         Height = height;
     }
-    public Vector3 Background = new Vector3(0.1f, 0.1f, 0.1f);
-    public Vector3 CameraOrigin = new Vector3(0, 0, -3);
+    public Vector3 Background = new Vector3(0.4f, 0.6f, 0.9f);
+    public Vector3 CameraOrigin = new Vector3(0, 1, -3);
     public Vector3 LightPosition = new Vector3(1, 1.5f, -1);
 
     public int MaxDepth = 3;
@@ -63,7 +63,17 @@ public class Tracer
         bool inShadow = TryHit(shadowRay, out float blockerT, out _) && blockerT < distance;
         if (inShadow)
             diffuse = 0;
-        return hitTri.Color * (ambient + diffuse * falloff);
+        // reflectivity
+        Vector3 local = hitTri.Color * (ambient + diffuse * falloff);
+        if (depth <= 0 || hitTri.Reflectivity <= 0)
+            return local;
+        Vector3 d = ray.Direction;
+        Vector3 n = hitTri.Normal;
+        Vector3 r = d - n * (2 * Vector3.Dot(d, n));
+
+        var reflectRay = new Ray(hit + r * 0.001f, r);
+        Vector3 reflected = Trace(reflectRay, depth - 1);
+        return local * (1 - hitTri.Reflectivity) + reflected * hitTri.Reflectivity;
     }
     public Vector3 TracePixel(int px, int py) => Trace(RayForPixel(px, py), MaxDepth);
 

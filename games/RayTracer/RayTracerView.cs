@@ -8,8 +8,8 @@ class RayTracerView : Component
     private List<Triangle> baseTriangle = [];
     private readonly List<Triangle> floorTriangles =
 [
-    new Triangle(new Vector3(-2, -0.8f, -1), new Vector3(2, -0.8f, -1), new Vector3(2, -0.8f, 3), new Vector3(0.8f, 0.8f, 0.8f)),
-    new Triangle(new Vector3(-2, -0.8f, -1), new Vector3(2, -0.8f, 3), new Vector3(-2, -0.8f, 3), new Vector3(0.8f, 0.8f, 0.8f)),
+    new Triangle(new Vector3(-2, -0.6f, -1), new Vector3(2, -0.6f, -1), new Vector3(2, -0.6f, 3), new Vector3(0.5f, 0.5f, 0.5f), 0.5f),
+    new Triangle(new Vector3(-2, -0.6f, -1), new Vector3(2, -0.6f, 3), new Vector3(-2, -0.6f, 3), new Vector3(0.5f, 0.5f, 0.5f), 0.5f),
 ];
     const int Width = 400;
     const int Height = 400;
