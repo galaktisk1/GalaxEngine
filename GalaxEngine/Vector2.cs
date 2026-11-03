@@ -33,7 +33,14 @@ public struct Vector2
     // Properties for common vector operations
     public float Magnitude => MathF.Sqrt(X * X + Y * Y);
     public float SqrMagnitude => X * X + Y * Y;
-    public Vector2 Normalized => Magnitude == 0 ? Zero : this / Magnitude;
+    public Vector2 Normalized
+    {
+        get
+        {
+            float m = Magnitude;
+            return m == 0 ? Zero : this / m;
+        }
+    }
     public static Vector2 Zero => new Vector2(0, 0);
     public static Vector2 One => new Vector2(1, 1);
     public static Vector2 Up => new Vector2(0, -1);

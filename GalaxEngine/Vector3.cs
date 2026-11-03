@@ -13,7 +13,15 @@ public struct Vector3
     }
 
     public override string ToString() {return $"({X}, {Y}, {Z})";}
-    public Vector3 Normalized => Magnitude == 0 ? Zero : this / Magnitude;
+    public Vector3 Normalized 
+    {
+        get
+        {
+            float m = Magnitude;
+            return m == 0 ? Zero : this / m;
+        }
+    }
+    
 
     // shortcuts for common vectors
     public static Vector3 Zero => new Vector3(0, 0, 0);

@@ -13,6 +13,9 @@ public struct Triangle
         B = b;
         C = c;
         Color = color;
+        Normal = Vector3.Cross(A - B, C - B).Normalized;
+        D = -Vector3.Dot(Normal, A);
+        Area = Vector3.Cross(B - A, C - A).Magnitude;
     }
     public Triangle RotatedY(float angle) => new Triangle(
         RotateY(A, angle),
@@ -20,8 +23,9 @@ public struct Triangle
         RotateY(C, angle),
         Color
     );
-    public Vector3 Normal => Vector3.Cross(A - B, C - B).Normalized;
-    public float D => -Vector3.Dot(Normal, A);
+    public Vector3 Normal {get;}
+    public float D {get;}
+    public float Area {get;}
     public float IntersectPlane(Ray ray)
     {
     return (-D - Vector3.Dot(ray.Origin, Normal)) / Vector3.Dot(ray.Direction, Normal);
@@ -29,10 +33,9 @@ public struct Triangle
 
     public bool Contains(Vector3 p)
     {
-        float full = Vector3.Cross(B - A, C - A).Magnitude;
-        float a = Vector3.Cross(B - p, C - p).Magnitude / full;
-        float b = Vector3.Cross(A - p, C - p).Magnitude / full;
-        float c = Vector3.Cross(A - p, B - p).Magnitude / full;
+        float a = Vector3.Cross(B - p, C - p).Magnitude / Area;
+        float b = Vector3.Cross(A - p, C - p).Magnitude / Area;
+        float c = Vector3.Cross(A - p, B - p).Magnitude / Area;
         return a + b + c <= 1.001f;
     }
     private static Vector3 RotateY(Vector3 v, float angle)

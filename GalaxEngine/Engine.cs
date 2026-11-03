@@ -11,7 +11,7 @@ public static class Engine
         SceneManager.LoadScene<T>();
         SetConfigFlags(ConfigFlags.ResizableWindow);
         InitWindow(width, height, "GameLoop");
-        SetTargetFPS(60);
+        SetTargetFPS(180);
         while (!WindowShouldClose())
         {
             SceneManager.Update();

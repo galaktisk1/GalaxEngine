@@ -11,19 +11,13 @@ class RayTracerView : Component
     private Color[] pixels = new Color[Width * Height];
     private Texture2D texture;
     private Tracer tracer = new Tracer(Width, Height);
-    private Triangle currentTriangle; 
 
     public override void Start()
     {
         var image = GenImageColor(Width, Height, Color.Black);
         texture = LoadTextureFromImage(image);
         UnloadImage(image);
-        baseTriangle = new Triangle(
-        new Vector3(-0.5f, -0.5f, 0),
-        new Vector3(0.5f, -0.5f, 0),
-        new Vector3(0, 0.5f, 0),
-        new Vector3(1, 0.5f, 0)
-    );
+        baseTriangle = tracer.Triangle;
     }
 
     private void Render()
@@ -39,8 +33,7 @@ class RayTracerView : Component
 
     public override void Update()
     {
-        currentTriangle = baseTriangle.RotatedY(Time.TimeSinceStart);
-        tracer.Triangle = currentTriangle;
+        tracer.Triangle = baseTriangle.RotatedY(Time.TimeSinceStart);
         Render();
     }
     public override void Draw()
