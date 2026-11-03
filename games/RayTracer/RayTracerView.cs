@@ -27,13 +27,13 @@ class RayTracerView : Component
 
     private void Render()
     {
-        for (int y = 0; y < Height; y++)
+        Parallel.For(0, Height, y =>
         {
             for (int x = 0; x < Width; x++)
             {
                 pixels[y * Width + x] = ToColor(tracer.TracePixel(x, y));
             }
-        }
+        });
     }
 
     public override void Update()
