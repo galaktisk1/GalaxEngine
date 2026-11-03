@@ -6,6 +6,11 @@ using static Raylib_cs.Raylib;
 class RayTracerView : Component
 {
     private List<Triangle> baseTriangle = [];
+    private readonly List<Triangle> floorTriangles =
+[
+    new Triangle(new Vector3(-2, -0.8f, -1), new Vector3(2, -0.8f, -1), new Vector3(2, -0.8f, 3), new Vector3(0.8f, 0.8f, 0.8f)),
+    new Triangle(new Vector3(-2, -0.8f, -1), new Vector3(2, -0.8f, 3), new Vector3(-2, -0.8f, 3), new Vector3(0.8f, 0.8f, 0.8f)),
+];
     const int Width = 400;
     const int Height = 400;
     private Color[] pixels = new Color[Width * Height];
@@ -33,7 +38,8 @@ class RayTracerView : Component
 
     public override void Update()
     {
-        tracer.Triangles = baseTriangle.Select(t => t.RotatedY(Time.TimeSinceStart)).ToList();
+        var rotated = baseTriangle.Select(t => t.RotatedY(Time.TimeSinceStart)).ToList();
+        tracer.Triangles = [..rotated, ..floorTriangles];
         Render();
     }
     public override void Draw()

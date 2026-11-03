@@ -15,7 +15,7 @@ public class Tracer
 
     public Vector3 Background = new Vector3(0.1f, 0.1f, 0.1f);
     public Vector3 CameraOrigin = new Vector3(0, 0, -3);
-    public Vector3 LightPosition = new Vector3(0, 3, 0);
+    public Vector3 LightPosition = new Vector3(1, 0, -1);
     
     public List<Triangle> Triangles = 
     [
@@ -61,8 +61,13 @@ public class Tracer
             return Background;
         Vector3 hit = ray.PointAt(closest);
         Vector3 toLight = (LightPosition - hit).Normalized;
+        
+        // diffuse lighting based on angle between normal and light direction
         float diffuse = MathF.Max(0, Vector3.Dot(hitTri.Normal, toLight));
         float ambient = 0.15f;
-        return hitTri.Color * (ambient + diffuse);
+        // light falloff based on distance
+        float distance = (LightPosition - hit).Magnitude;
+        float falloff = 1 / (1 + 0.3f * distance * distance);
+        return hitTri.Color * (ambient + diffuse * falloff);
     }
 }
