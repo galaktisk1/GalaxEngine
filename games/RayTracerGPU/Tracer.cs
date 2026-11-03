@@ -35,7 +35,7 @@ public class Tracer
         foreach (var triangle in Triangles)
         {
             float t = triangle.IntersectPlane(ray);
-            if (!float.IsFinite(t) || t < 0 || t >= closest)
+            if (!float.IsFinite(t) || t < 0 || t >= closest || MathF.Abs(Vector3.Dot(ray.Direction, triangle.Normal)) < 1e-6)
                 continue;
             if(!triangle.Contains(ray.PointAt(t)))
                 continue;
