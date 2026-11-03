@@ -17,7 +17,8 @@ class RayTracerView : Component
     private Tracer tracer = new Tracer(Width, Height);
     private Shader shader;
     private int cameraLoc;
-
+    private int timeLoc;
+    
     public override void Start()
     {
         var image = GenImageColor(Width, Height, Color.Black);
@@ -26,14 +27,18 @@ class RayTracerView : Component
         baseTriangle = tracer.Triangles;
         shader = LoadShader(null, Path.Combine(AppContext.BaseDirectory, "shaders", "raytrace.frag"));
         cameraLoc = GetShaderLocation(shader, "cameraOrigin");
+        timeLoc = GetShaderLocation(shader, "time");
     }
+
     public override void Draw()
     {
         SetShaderValue(shader, cameraLoc, (System.Numerics.Vector3)new Vector3(0, 0, -3), ShaderUniformDataType.Vec3);
+        SetShaderValue(shader, timeLoc, Time.TimeSinceStart, ShaderUniformDataType.Float);
         BeginShaderMode(shader);
         DrawTexture(texture, 0, 0, Color.White);
         EndShaderMode();
     }
+
     public override void OnDestroy()
     {
         Console.WriteLine("Destroying RayTracerView");

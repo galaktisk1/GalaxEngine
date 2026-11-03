@@ -62,3 +62,23 @@ public abstract class SceneObject
             child.Destroy();
     }
 }
+
+public class LogicObject : SceneObject
+{
+    // no specific code yet
+}
+
+public class GameObject : SceneObject
+{
+    public Transform Transform { get; }
+    public GameObject()
+    {
+        Transform = new Transform();
+        AddComponent(Transform);
+    }
+    public virtual void Draw()
+    {
+        foreach (var component in Components)
+            component.Draw();
+    }
+}

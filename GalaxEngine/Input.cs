@@ -3,6 +3,7 @@ using static Raylib_cs.Raylib;
 namespace GalaxEngine;
 public static class Input
 {
+    private static readonly KeyboardKey[] AllKeys = Enum.GetValues<KeyboardKey>();
     private static readonly List<KeyboardKey> KeysDown = new List<KeyboardKey>();
     private static readonly List<KeyboardKey> KeysDownThisFrame = new List<KeyboardKey>();
     private static readonly List<KeyboardKey> KeysUpThisFrame = new List<KeyboardKey>();
@@ -11,7 +12,7 @@ public static class Input
         KeysDownThisFrame.Clear();
         KeysUpThisFrame.Clear();
         KeysDown.Clear();
-        foreach (KeyboardKey key in Enum.GetValues(typeof(KeyboardKey)))
+        foreach (KeyboardKey key in AllKeys)
         {
             if (IsKeyDown(key))
             {
