@@ -1,6 +1,8 @@
 namespace RayTracer;
 using GalaxEngine;
 using System.Collections.Generic;
+using System.ComponentModel;
+
 public class Tracer
 {
     public int Width { get; }
@@ -13,6 +15,7 @@ public class Tracer
 
     public Vector3 Background = new Vector3(0.1f, 0.1f, 0.1f);
     public Vector3 CameraOrigin = new Vector3(0, 0, -3);
+    public Vector3 LightPosition = new Vector3(0, 3, 0);
     
     public List<Triangle> Triangles = 
     [
@@ -43,7 +46,7 @@ public class Tracer
         // gets the pixel's ray and returns a color.
         Ray ray = RayForPixel(px, py);
         float closest = float.PositiveInfinity;
-        Vector3 color = Background;
+        Triangle? hitTriangle = null;
         foreach (var triangle in Triangles)
         {
             float t = triangle.IntersectPlane(ray);
@@ -52,8 +55,14 @@ public class Tracer
             if(!triangle.Contains(ray.PointAt(t)))
                 continue;
             closest = t;
-            color = triangle.Color;
+            hitTriangle = triangle;
         }
-        return color;
+        if (hitTriangle is not Triangle hitTri)
+            return Background;
+        Vector3 hit = ray.PointAt(closest);
+        Vector3 toLight = (LightPosition - hit).Normalized;
+        float diffuse = MathF.Max(0, Vector3.Dot(hitTri.Normal, toLight));
+        float ambient = 0.15f;
+        return hitTri.Color * (ambient + diffuse);
     }
 }
