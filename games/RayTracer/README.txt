@@ -1,0 +1,1 @@
+This was a CPU ray tracer renderer as a demo, built from a course's cpu ray tracing outline

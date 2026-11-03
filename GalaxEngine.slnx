@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/games/">
     <Project Path="games/RayTracer/RayTracer.csproj" />
+    <Project Path="games/RayTracerGPU/RayTracerGPU.csproj" />
     <Project Path="games/SpaceShooter/SpaceShooter.csproj" />
   </Folder>
   <Project Path="GalaxEngine/GalaxEngine.csproj" />
