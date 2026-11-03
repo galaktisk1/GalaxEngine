@@ -12,14 +12,20 @@ public class Tracer
     }
 
     public Vector3 Background = new Vector3(0.1f, 0.1f, 0.1f);
-    public Vector3 CameraOrigin = new Vector3(0, 0, -1);
+    public Vector3 CameraOrigin = new Vector3(0, 0, -3);
     
-    public List<Triangle> Triangles = [
+    public List<Triangle> Triangles = 
+    [
         new Triangle(
-        new Vector3(-0.5f, -0.5f, 0),
-        new Vector3(0.5f, -0.5f, 0),
-        new Vector3(0, 0.5f, 0),
-        new Vector3(1, 0.5f, 0)),
+            new Vector3(-0.6f, -0.3f, 0.5f),
+            new Vector3(0.4f, -0.3f, 0.5f),
+            new Vector3(-0.1f, 0.7f, 0.5f),
+            new Vector3(0.2f, 0.4f, 1)),
+        new Triangle(
+            new Vector3(-0.5f, -0.5f, 0),
+            new Vector3(0.5f, -0.5f, 0),
+            new Vector3(0, 0.5f, 0),
+            new Vector3(1, 0.5f, 0)),
     ];
 
     public Ray RayForPixel(int px, int py)
