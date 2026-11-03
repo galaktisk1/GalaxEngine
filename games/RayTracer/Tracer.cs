@@ -10,9 +10,16 @@ public class Tracer
         Height = height;
     }
     public Vector3 CameraOrigin = new Vector3(0, 0, -1);
+    
+    public Triangle Triangle = new Triangle(
+        new Vector3(-0.5f, -0.5f, 0),
+        new Vector3(0.5f, -0.5f, 0),
+        new Vector3(0, 0.5f, 0),
+        new Vector3(1, 0.5f, 0)
+    );
+
     public Ray RayForPixel(int px, int py)
     {
-        // Convert pixel coordinates to normalized device coordinates (0 to 1)
         float u = px / (float)(Width - 1);
         float v = py / (float)(Height - 1);
         float x = u * 2 - 1;
@@ -20,11 +27,15 @@ public class Tracer
         Vector3 target = new Vector3(x, y, 0);
         return new Ray(CameraOrigin, (target - CameraOrigin).Normalized);
     }
+    
     public Vector3 TracePixel(int px, int py)
     {
         // gets the pixel's ray and returns a color.
         Ray ray = RayForPixel(px, py);
-        Vector3 unitDirection = ray.Direction;
-        return unitDirection * 0.5f + new Vector3(0.5f, 0.5f, 0.5f);
+        float t = Triangle.IntersectPlane(ray);
+        Vector3 hit = ray.PointAt(t);
+        if(Triangle.Contains(hit))
+            return Triangle.Color;
+        return new Vector3(0.1f, 0.1f, 0.1f);
     }
 }

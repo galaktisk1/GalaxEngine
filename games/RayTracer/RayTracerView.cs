@@ -5,25 +5,43 @@ using static Raylib_cs.Raylib;
 
 class RayTracerView : Component
 {
+    private Triangle baseTriangle;
     const int Width = 400;
     const int Height = 400;
     private Color[] pixels = new Color[Width * Height];
     private Texture2D texture;
     private Tracer tracer = new Tracer(Width, Height);
+    private Triangle currentTriangle; 
 
     public override void Start()
     {
         var image = GenImageColor(Width, Height, Color.Black);
         texture = LoadTextureFromImage(image);
         UnloadImage(image);
+        baseTriangle = new Triangle(
+        new Vector3(-0.5f, -0.5f, 0),
+        new Vector3(0.5f, -0.5f, 0),
+        new Vector3(0, 0.5f, 0),
+        new Vector3(1, 0.5f, 0)
+    );
+    }
+
+    private void Render()
+    {
         for (int y = 0; y < Height; y++)
         {
             for (int x = 0; x < Width; x++)
             {
-                Vector3 color = tracer.TracePixel(x, y);
                 pixels[y * Width + x] = ToColor(tracer.TracePixel(x, y));
             }
         }
+    }
+
+    public override void Update()
+    {
+        currentTriangle = baseTriangle.RotatedY(Time.TimeSinceStart);
+        tracer.Triangle = currentTriangle;
+        Render();
     }
     public override void Draw()
     {
