@@ -5,7 +5,7 @@ using static Raylib_cs.Raylib;
 
 class RayTracerView : Component
 {
-    private Triangle baseTriangle;
+    private List<Triangle> baseTriangle = [];
     const int Width = 400;
     const int Height = 400;
     private Color[] pixels = new Color[Width * Height];
@@ -17,7 +17,7 @@ class RayTracerView : Component
         var image = GenImageColor(Width, Height, Color.Black);
         texture = LoadTextureFromImage(image);
         UnloadImage(image);
-        baseTriangle = tracer.Triangle;
+        baseTriangle = tracer.Triangles;
     }
 
     private void Render()
@@ -33,7 +33,7 @@ class RayTracerView : Component
 
     public override void Update()
     {
-        tracer.Triangle = baseTriangle.RotatedY(Time.TimeSinceStart);
+        tracer.Triangles = baseTriangle.Select(t => t.RotatedY(Time.TimeSinceStart)).ToList();
         Render();
     }
     public override void Draw()

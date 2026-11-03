@@ -6,12 +6,13 @@ public static class Engine
     public static int Width => GetScreenWidth();
     public static int Height => GetScreenHeight();
     public static Vector2 Center => new Vector2(Width / 2f, Height / 2f);
+    public static int TargetFPS = 60;
     public static void Start<T>(int width = 800, int height = 600) where T : Scene, new()
     {
         SceneManager.LoadScene<T>();
         SetConfigFlags(ConfigFlags.ResizableWindow);
         InitWindow(width, height, "GameLoop");
-        SetTargetFPS(180);
+        SetTargetFPS(TargetFPS);
         while (!WindowShouldClose())
         {
             SceneManager.Update();
