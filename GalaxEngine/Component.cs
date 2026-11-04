@@ -46,6 +46,7 @@ public abstract class Component
     public virtual void Draw() { }
     public virtual void OnDestroy() { }
     public virtual void OnMouseOver() { }
+    public virtual void OnCollisionStay(GameObject other, Vector2 mtv) { }
 }
 
 // Below are descriptions for specialized engine-level component types
