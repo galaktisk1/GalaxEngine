@@ -121,7 +121,7 @@ void main()
     // float falloff = 1.0 / (1.0 + 0.3 * distance * distance);
     
     float diffuse = max(dot(hitNormal, toLight), 0.0);
-    float ambient = 0.15;
+    float ambient = 0.03;
 
     // Check for shadows
     float shadowT;
@@ -142,5 +142,5 @@ void main()
     // approximate gamma correction of sRGB color space
     color = pow(color, vec3(1.0/2.2));
     // Apply tonemapping to the color before outputting it
-    finalColor = vec4(color / (1.0 + color), 1.0);
+    finalColor = vec4(color, 1.0);
 }
