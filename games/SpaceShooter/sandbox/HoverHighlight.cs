@@ -1,4 +1,4 @@
-namespace SpaceShooter;
+namespace SpaceShooter.Sandbox;
 
 using GalaxEngine;
 using Raylib_cs;

@@ -1,5 +1,5 @@
 using GalaxEngine;
-namespace SpaceShooter;
+namespace SpaceShooter.Sandbox;
 using Raylib_cs;
 public class MainScene : Scene
 {
@@ -30,8 +30,25 @@ public class MainScene : Scene
         });
         nose.SetParent(ship);
         Instantiate(nose);
-        
+
         // test ui element
         Instantiate(new TestTextLabel());
+        
+        // test physics 
+        var rectangle = new GameObject("Rectangle");
+        rectangle.AddComponent(new Polygon
+        {
+            Points = new List<Vector2>
+            {
+                new Vector2(-50, -25),
+                new Vector2(50, -25),
+                new Vector2(50, 25),
+                new Vector2(-50, 25)
+            },
+            FillColor = Color.Blue
+        });
+        rectangle.AddComponent(new Collider());
+        rectangle.Transform.Position = new Vector2(200, 200);
+        Instantiate(rectangle);
     }
 }

@@ -1,6 +1,6 @@
 using GalaxEngine;
 using Raylib_cs;
-namespace SpaceShooter;
+namespace SpaceShooter.Sandbox;
 public class MainGameObject : GameObject
 {
     public MainGameObject()
@@ -12,6 +12,7 @@ public class MainGameObject : GameObject
             FillColor = new Color(64, 224, 208, 255),
         });
         AddComponent(new Collider());
+        AddComponent(new Rigidbody());
         
         // old draw component
         //AddComponent(new DrawComponent());

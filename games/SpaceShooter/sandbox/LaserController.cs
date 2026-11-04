@@ -1,5 +1,5 @@
 using GalaxEngine;
-namespace SpaceShooter;
+namespace SpaceShooter.Sandbox;
 public class LaserController : Component
 {
     public float speed = 5 * 60; 

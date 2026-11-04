@@ -3,9 +3,10 @@ using GalaxEngine;
 using Raylib_cs;
 using System.Collections;
 
-namespace SpaceShooter;
+namespace SpaceShooter.Sandbox;
+
 public class UpdateComponent : Component
-{   
+{
     public float speed = 2 * 60; // due to 60 frames per second
     public override void Start()
     {
@@ -40,18 +41,24 @@ public class UpdateComponent : Component
 
         Camera.Main.Transform.Position = Transform.WorldPosition;
     }
+
+    public override void OnCollisionStay(GameObject other, Vector2 mtv)
+    {
+        Console.WriteLine($"Collided with {other.Name} with MTV {mtv}");
+    }
+
     private IEnumerator Fire()
     {
         while (true)
-            {
-                var laser = SceneManager.CurrentScene.Instantiate(new LaserGameObject(), Transform.Position);
-                laser.Transform.Position = Transform.WorldPosition + Transform.Up * 100;
-                laser.Transform.Rotation = Transform.WorldRotation;
-                var laserComp = laser.GetComponent<LaserController>()!;
-                laserComp.Direction = Transform.Up;
+        {
+            var laser = SceneManager.CurrentScene.Instantiate(new LaserGameObject(), Transform.Position);
+            laser.Transform.Position = Transform.WorldPosition + Transform.Up * 100;
+            laser.Transform.Rotation = Transform.WorldRotation;
+            var laserComp = laser.GetComponent<LaserController>()!;
+            laserComp.Direction = Transform.Up;
 
-                yield return new WaitForSeconds(0.2f);
-            }
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     private IEnumerator Testing()

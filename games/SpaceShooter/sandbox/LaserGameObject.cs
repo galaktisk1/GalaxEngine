@@ -1,6 +1,6 @@
 using GalaxEngine;
 using Raylib_cs;
-namespace SpaceShooter;
+namespace SpaceShooter.Sandbox;
 public class LaserGameObject : GameObject
 {
     public LaserGameObject()

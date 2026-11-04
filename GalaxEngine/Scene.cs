@@ -34,6 +34,7 @@ public abstract class Scene
         Instantiate(gameObject);
         return gameObject;
     }
+    
     public virtual void Update()
     {
         iterationBuffer.Clear();
@@ -93,6 +94,13 @@ public abstract class Scene
                 component.OnDestroy();
         }
         SceneObjects.Clear();
+        pending.Clear();
+    }
+    internal void TransferPendingTo(Scene other)
+    {
+        foreach (var sceneObject in pending)
+            if (sceneObject != MainCamera.Owner)
+                other.Instantiate(sceneObject);
         pending.Clear();
     }
 

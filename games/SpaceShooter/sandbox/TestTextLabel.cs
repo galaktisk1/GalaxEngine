@@ -1,5 +1,5 @@
 using GalaxEngine;
-namespace SpaceShooter;
+namespace SpaceShooter.Sandbox;
 public class TestTextLabel : GameObject
 {
     public TestTextLabel() : base("tsttxt", layer: Engine.UILayer)

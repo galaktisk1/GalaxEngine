@@ -19,10 +19,7 @@ public static class SceneManager {
             nextScene = () => new T();
         }
         else {
-            var tempScene = new T();
-            foreach (var gameObject in tempScene.SceneObjects) {
-                CurrentScene!.SceneObjects.Add(gameObject);
-            }
+            new T().TransferPendingTo(CurrentScene);
         }
     }
 }

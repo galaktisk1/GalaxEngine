@@ -26,5 +26,13 @@ public class TitleScene : Scene
         });
         var pos2 = new Vector2(0, 40);
         Instantiate(txt2, pos2);
+
+        var txt3 = new GameObject();
+        txt3.AddComponent(new TextLabel() {
+            Text = "Tab for the sandbox",
+            FontSize = 16,
+            Align = TextAlign.Center
+        });
+        Instantiate(txt3, new Vector2(0, 70));
     }
 }
