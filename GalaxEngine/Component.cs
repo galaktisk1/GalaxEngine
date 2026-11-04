@@ -9,9 +9,10 @@ public abstract class Component
 
     public GameObject GameObject => Owner as GameObject 
     ?? throw new InvalidOperationException($"{GetType().Name} needs a GameObject, but it's on a LogicObject");
-    public Transform Transform => Owner is GameObject gameObject 
+    public Transform Transform => Owner is GameObject gameObject
     ? gameObject.Transform
     : throw new InvalidOperationException($"{GetType().Name} needs a GameObject, but it's on a LogicObject");
+    public T? GetComponent<T>() where T : Component => Owner.GetComponent<T>();
     public IEnumerator StartCoroutine(IEnumerator routine)
     {
         if (routine.MoveNext())

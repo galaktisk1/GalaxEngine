@@ -34,6 +34,9 @@ public struct Vector2
     // Properties for common vector operations
     public float Magnitude => MathF.Sqrt(X * X + Y * Y);
     public float SqrMagnitude => X * X + Y * Y;
+    public static float Dot(Vector2 a, Vector2 b) => a.X * b.X + a.Y * b.Y;
+    public static float Cross(Vector2 a, Vector2 b) => a.X * b.Y - a.Y * b.X;
+    public static Vector2 Perpendicular(Vector2 v) => new Vector2(-v.Y, v.X);
     public Vector2 Normalized
     {
         get

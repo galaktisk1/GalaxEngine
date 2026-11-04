@@ -15,6 +15,7 @@ public class MainScene : Scene
         Instantiate(planet);
         // ship game object
         var ship = new MainGameObject();
+        ship.AddComponent(new HoverHighlight());
         Instantiate(ship);
 
         // test go 2 parenting

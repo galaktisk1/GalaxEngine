@@ -42,10 +42,21 @@ public abstract class SceneObject
         => AddComponent(new T(), configure);
     public T? GetComponent<T>() where T : Component
     {
+        // This is for the GetComponent<Component>() syntax
         foreach (var component in components)
         {
             if (component is T found)
                 return found;
+        }
+        return null;
+    }
+    public Component? GetComponent(Type type)
+    {
+        // This is for the GetComponent(typeof(Component)) syntax
+        foreach (var component in components)
+        {
+            if (type.IsInstanceOfType(component))
+                return component;
         }
         return null;
     }
