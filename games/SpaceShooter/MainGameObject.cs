@@ -11,6 +11,7 @@ public class MainGameObject : GameObject
             Points = [new(0, -100), new(-80, 50), new(-40, 100), new(40, 100), new(80, 50)],
             FillColor = new Color(64, 224, 208, 255),
         });
+        AddComponent(new Collider());
         
         // old draw component
         //AddComponent(new DrawComponent());

@@ -3,13 +3,14 @@ public static class Collisions
 {
     private static Vector2[] WorldPoints(GameObject obj)
     {
-        var polygon = obj.GetComponent<Polygon>();
-        if (polygon is null)
+        var collider = obj.GetComponent<Collider>();
+        if (collider is null)
             return [];
+        var polygon = collider.Points;
         var matrix = obj.Transform.WorldMatrix;
-        var points = new Vector2[polygon.Points.Count];
+        var points = new Vector2[polygon.Count];
         for (int i = 0; i < points.Length; i++)
-            points[i] = System.Numerics.Vector2.Transform(polygon.Points[i], matrix);
+            points[i] = System.Numerics.Vector2.Transform(polygon[i], matrix);
         return points;
     }
 
