@@ -30,6 +30,7 @@ public struct Vector2
         this.X = x;
         this.Y = y;
     }
+    public override string ToString() => $"({X}, {Y})";
     // Properties for common vector operations
     public float Magnitude => MathF.Sqrt(X * X + Y * Y);
     public float SqrMagnitude => X * X + Y * Y;

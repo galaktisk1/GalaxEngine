@@ -12,10 +12,12 @@ public abstract class Scene
     private readonly List<SceneObject> iterationBuffer = new();
     public Camera MainCamera { get; }
 
-    protected Scene()
+    protected Scene(Color? backgroundColor = null)
     {
         var cameraObject = new GameObject("MainCamera", ["MainCamera"]);
         MainCamera = cameraObject.AddComponent<Camera>();
+        if (backgroundColor is Color color)
+            MainCamera.BackgroundColor = color;
         Instantiate(cameraObject);
     }
 

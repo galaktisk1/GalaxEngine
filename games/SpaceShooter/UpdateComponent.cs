@@ -58,7 +58,7 @@ public class UpdateComponent : Component
     {
         while (true)
         {
-            Console.WriteLine(SceneManager.CurrentScene.SceneObjects.Count);
+            // Console.WriteLine(SceneManager.CurrentScene.SceneObjects.Count);
             yield return new WaitForSeconds(1f);
         }
     }
