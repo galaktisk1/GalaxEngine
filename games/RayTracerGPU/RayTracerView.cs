@@ -19,6 +19,8 @@ class RayTracerView : Component
     private int cameraLoc;
     private int timeLoc;
     private int lightLoc;
+    private int lightRangeLoc;
+    private int lightIntensityLoc;
     
     public override void Start()
     {
@@ -27,16 +29,29 @@ class RayTracerView : Component
         UnloadImage(image);
         baseTriangle = tracer.Triangles;
         shader = LoadShader(null, Path.Combine(AppContext.BaseDirectory, "shaders", "raytrace.frag"));
+        // Get shader locations for uniforms
         cameraLoc = GetShaderLocation(shader, "cameraOrigin");
         timeLoc = GetShaderLocation(shader, "time");
         lightLoc = GetShaderLocation(shader, "lightPosition");
+        lightRangeLoc = GetShaderLocation(shader, "lightRange");
+        lightIntensityLoc = GetShaderLocation(shader, "lightIntensity");
     }
 
     public override void Draw()
     {
-        SetShaderValue(shader, cameraLoc, (System.Numerics.Vector3)new Vector3(0, 0, -3), ShaderUniformDataType.Vec3);
-        SetShaderValue(shader, timeLoc, Time.TimeSinceStart, ShaderUniformDataType.Float);
-        SetShaderValue(shader, lightLoc, (System.Numerics.Vector3)new Vector3(1, 0, -1), ShaderUniformDataType.Vec3);
+        // Define uniform values for the shader
+        var cameraPosition = new Vector3(0, 1, -3);
+        var time = Time.TimeSinceStart;
+        var lightPosition = new Vector3(1, 0, -1);
+        var lightIntensity = 3f;
+        var lightRange = 8f;
+        // Set shader values for uniforms
+        SetShaderValue(shader, cameraLoc, (System.Numerics.Vector3)cameraPosition, ShaderUniformDataType.Vec3);
+        SetShaderValue(shader, timeLoc, time, ShaderUniformDataType.Float);
+        SetShaderValue(shader, lightLoc, (System.Numerics.Vector3)lightPosition, ShaderUniformDataType.Vec3);
+        SetShaderValue(shader, lightRangeLoc, lightRange, ShaderUniformDataType.Float);
+        SetShaderValue(shader, lightIntensityLoc, lightIntensity, ShaderUniformDataType.Float);
+        
         BeginShaderMode(shader);
         DrawTexture(texture, 0, 0, Color.White);
         EndShaderMode();
