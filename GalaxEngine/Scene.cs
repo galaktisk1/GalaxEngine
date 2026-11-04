@@ -1,5 +1,7 @@
 namespace GalaxEngine;
 
+using Raylib_cs;
+
 public abstract class Scene
 {
     public List<SceneObject> SceneObjects = new List<SceneObject>();
@@ -28,7 +30,8 @@ public abstract class Scene
         Instantiate(gameObject);
         return gameObject;
     }
-    public virtual void Update() {
+    public virtual void Update()
+    {
         iterationBuffer.Clear();
         iterationBuffer.AddRange(pending);
         pending.Clear();
@@ -42,11 +45,28 @@ public abstract class Scene
 
         RemoveDestroyed();
     }
-    public virtual void Draw() {
+
+    public virtual void Draw()
+    {
+        var camera = MainCamera;
+        // begin camera
+        Raylib.BeginMode2D(camera.Camera2D);
+        foreach (var layer in Engine.Layers)
+        {
+            if (layer == Engine.UILayer) continue;
+            foreach (var sceneObject in SceneObjects)
+                if (sceneObject is GameObject gameObject && gameObject.Layer == layer)
+                    gameObject.Draw();
+        }
+        // end camera
+        Raylib.EndMode2D();
+
+        // draw ui elements separately
         foreach (var sceneObject in SceneObjects)
-            if (sceneObject is GameObject gameObject)
+            if (sceneObject is GameObject gameObject && gameObject.Layer == Engine.UILayer)
                 gameObject.Draw();
     }
+
     private void RemoveDestroyed()
     {
         foreach (var sceneObject in SceneObjects)

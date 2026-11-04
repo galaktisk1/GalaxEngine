@@ -4,7 +4,6 @@ public class TitleScene : Scene
 {
     public TitleScene()
     {
-        var center = Engine.Center;
 
         var controller = new LogicObject();
         controller.AddComponent(new TitleController());
@@ -16,7 +15,7 @@ public class TitleScene : Scene
             FontSize = 48,
             Align = TextAlign.Center
         });
-        var pos = center + new Vector2(0, -40);
+        var pos = new Vector2(0, -40);
         Instantiate(txt, pos);
         
         var txt2 = new GameObject();
@@ -25,7 +24,7 @@ public class TitleScene : Scene
             FontSize = 20,
             Align = TextAlign.Center
         });
-        var pos2 = center + new Vector2(0, 40);
+        var pos2 = new Vector2(0, 40);
         Instantiate(txt2, pos2);
     }
 }

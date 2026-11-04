@@ -2,7 +2,7 @@ using GalaxEngine;
 namespace SpaceShooter;
 public class TestTextLabel : GameObject
 {
-    public TestTextLabel()
+    public TestTextLabel() : base("tsttxt", layer: Engine.UILayer)
     {
         AddComponent(new TextLabel() { 
             FontPath = "assets/fonts/Roboto.ttf",

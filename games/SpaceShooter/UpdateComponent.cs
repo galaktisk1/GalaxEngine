@@ -26,16 +26,19 @@ public class UpdateComponent : Component
             direction += Vector2.Left;
         if (Input.GetKey(KeyboardKey.Right) || Input.GetKey(KeyboardKey.D))
             direction += Vector2.Right;
-        // due to Vector2 being a struct, this is a copy of Transform.Position 
-        // and not a reference
-        Transform.Position += direction.Normalized * speed * Time.DeltaTime;
+        var move = Transform.Right * direction.X + Transform.Up * -direction.Y;
+        Transform.Position += move.Normalized * speed * Time.DeltaTime;
+
         if (Input.GetKey(KeyboardKey.Q)) Transform.Rotation -= 2f * Time.DeltaTime;
         if (Input.GetKey(KeyboardKey.E)) Transform.Rotation += 2f * Time.DeltaTime;
+        Camera.Main.Transform.Rotation = Transform.WorldRotation;
 
 
         // debug scene switch
         if (Input.GetKeyDown(KeyboardKey.Backspace))
             SceneManager.LoadScene<TitleScene>();
+
+        Camera.Main.Transform.Position = Transform.WorldPosition;
     }
     private IEnumerator Fire()
     {
