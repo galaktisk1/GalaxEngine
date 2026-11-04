@@ -4,7 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Engine.TargetFPS = 0;
+        Engine.TargetFPS = 180;
         Engine.Start<RenderScene>();
     }
 }

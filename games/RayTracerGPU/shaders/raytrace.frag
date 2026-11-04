@@ -5,6 +5,7 @@ out vec4 finalColor;
 
 uniform vec3 cameraOrigin;
 uniform float time;
+uniform vec3 lightPosition;
 const vec3 A = vec3(-0.5, -0.5, 0.0);
 const vec3 B = vec3(0.5, -0.5, 0.0);
 const vec3 C = vec3(0.0, 0.5, 0.0);
@@ -50,8 +51,20 @@ void main()
         return;
     }
     vec3 hit = cameraOrigin + dir * t;
-    if(contains(hit, a, b, c))
-        finalColor = vec4(triColor, 1.0);
-    else
+    if(!contains(hit, a, b, c))
+    {
         finalColor = vec4(background, 1.0);
+        return;
+    }
+    
+    vec3 toLightFull = lightPosition - hit;
+    vec3 toLight = normalize(toLightFull);
+    float distance = length(toLightFull);
+
+    float diffuse = max(dot(normal, toLight), 0.0);
+    float falloff = 1.0 / (1.0 + 0.3 * distance * distance);
+    float ambient = 0.15;
+    
+    float lighting = ambient + diffuse * falloff;
+    finalColor = vec4(triColor * lighting, 1.0);
 }

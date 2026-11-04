@@ -18,6 +18,7 @@ class RayTracerView : Component
     private Shader shader;
     private int cameraLoc;
     private int timeLoc;
+    private int lightLoc;
     
     public override void Start()
     {
@@ -28,12 +29,14 @@ class RayTracerView : Component
         shader = LoadShader(null, Path.Combine(AppContext.BaseDirectory, "shaders", "raytrace.frag"));
         cameraLoc = GetShaderLocation(shader, "cameraOrigin");
         timeLoc = GetShaderLocation(shader, "time");
+        lightLoc = GetShaderLocation(shader, "lightPosition");
     }
 
     public override void Draw()
     {
         SetShaderValue(shader, cameraLoc, (System.Numerics.Vector3)new Vector3(0, 0, -3), ShaderUniformDataType.Vec3);
         SetShaderValue(shader, timeLoc, Time.TimeSinceStart, ShaderUniformDataType.Float);
+        SetShaderValue(shader, lightLoc, (System.Numerics.Vector3)new Vector3(1, 0, -1), ShaderUniformDataType.Vec3);
         BeginShaderMode(shader);
         DrawTexture(texture, 0, 0, Color.White);
         EndShaderMode();
