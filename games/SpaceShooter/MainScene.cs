@@ -12,6 +12,8 @@ public class MainScene : Scene
             Radius = 40,
             FillColor = Color.Gray,
         });
+        planet.AddComponent(new Collider());
+        planet.AddComponent(new HoverHighlight());
         Instantiate(planet);
         // ship game object
         var ship = new MainGameObject();

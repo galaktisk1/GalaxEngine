@@ -45,6 +45,7 @@ public abstract class Component
     public virtual void Update() { }
     public virtual void Draw() { }
     public virtual void OnDestroy() { }
+    public virtual void OnMouseOver() { }
 }
 
 // Below are descriptions for specialized engine-level component types

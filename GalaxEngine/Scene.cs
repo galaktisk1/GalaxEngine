@@ -11,9 +11,11 @@ public abstract class Scene
     // to avoid modification during iteration
     private readonly List<SceneObject> iterationBuffer = new();
     public Camera MainCamera { get; }
+    public PhysicsScene Physics { get; }
 
     protected Scene(Color? backgroundColor = null)
     {
+        Physics = new PhysicsScene(this);
         var cameraObject = new GameObject("MainCamera", ["MainCamera"]);
         MainCamera = cameraObject.AddComponent<Camera>();
         if (backgroundColor is Color color)
@@ -42,6 +44,7 @@ public abstract class Scene
             SceneObjects.Add(sceneObject);
             sceneObject.Start();
         }
+        Physics.Step();
         foreach (var sceneObject in SceneObjects)
             sceneObject.Update();
 

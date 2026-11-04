@@ -14,6 +14,7 @@ public static class Collisions
         return points;
     }
 
+    // Point in polygon and circle checks
     public static bool PointInPolygon(Vector2 point, GameObject obj)
     {
         var corners = WorldPoints(obj);
@@ -38,4 +39,18 @@ public static class Collisions
     }
     public static bool PointInCircle(Vector2 point, Vector2 center, float radius)
         => (point - center).SqrMagnitude <= radius * radius;
+
+    public static bool ContainsPoint(Vector2 point, GameObject obj)
+    {
+        var collider = obj.GetComponent<Collider>();
+        if (collider is null)
+            return false;
+
+        if (collider.IsCircle)
+            return PointInCircle(point, obj.Transform.Position, collider.WorldRadius ?? 0);
+
+        return PointInPolygon(point, obj);
+    }
+    
+    // Polygon and Polygon collision checks
 }
