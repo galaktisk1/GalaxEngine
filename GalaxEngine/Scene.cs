@@ -4,6 +4,10 @@ public abstract class Scene
 {
     public List<SceneObject> SceneObjects = new List<SceneObject>();
     private readonly List<SceneObject> pending = new List<SceneObject>();
+    
+    // Buffer used to iterate over pending scene objects safely
+    // to avoid modification during iteration
+    private readonly List<SceneObject> iterationBuffer = new();
     public void Instantiate(SceneObject sceneObject)
     {
         pending.Add(sceneObject);
@@ -15,9 +19,10 @@ public abstract class Scene
         return gameObject;
     }
     public virtual void Update() {
-        var toStart = pending.ToList(); // Copy and clear first: a Start() may Instantiate, which adds to pending.
+        iterationBuffer.Clear();
+        iterationBuffer.AddRange(pending);
         pending.Clear();
-        foreach (var sceneObject in toStart)
+        foreach (var sceneObject in iterationBuffer)
         {
             SceneObjects.Add(sceneObject);
             sceneObject.Start();
@@ -34,8 +39,9 @@ public abstract class Scene
     }
     private void RemoveDestroyed()
     {
-        foreach (var sceneObject in SceneObjects.Where(o => o.MarkForDestroy))
+        foreach (var sceneObject in SceneObjects)
         {
+            if (!sceneObject.MarkForDestroy) continue;
             sceneObject.SetParent(null);
             foreach (var component in sceneObject.Components)
                 component.OnDestroy();

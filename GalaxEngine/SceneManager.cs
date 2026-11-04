@@ -10,6 +10,7 @@ public static class SceneManager {
                 CurrentScene.Unload();
             CurrentScene = nextScene();
             nextScene = null;
+            GC.Collect();
         }
     }
 

@@ -5,6 +5,7 @@ public abstract class Component
     public SceneObject Owner { get; internal set; } = null!;
     public bool HasStarted { get; internal set; }
     private readonly List<IEnumerator> coroutines = new List<IEnumerator>();
+    private readonly List<IEnumerator> coroutineBuffer = new();
 
     public GameObject GameObject => Owner as GameObject 
     ?? throw new InvalidOperationException($"{GetType().Name} needs a GameObject, but it's on a LogicObject");
@@ -27,7 +28,9 @@ public abstract class Component
     }
     internal void UpdateCoroutines()
     {
-        foreach (var routine in coroutines.ToList())
+        coroutineBuffer.Clear();
+        coroutineBuffer.AddRange(coroutines);
+        foreach (var routine in coroutineBuffer)
         {
             if (!coroutines.Contains(routine)) continue;
             if (routine.Current is Wait wait && wait.KeepWaiting) continue;

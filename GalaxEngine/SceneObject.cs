@@ -7,8 +7,14 @@ public abstract class SceneObject
     private readonly List<Component> components = new List<Component>();
     public bool MarkForDestroy { get; private set; }
     public SceneObject? Parent { get; private set; }
+    
     private readonly List<SceneObject> children = new List<SceneObject>();
+    
     public IReadOnlyList<SceneObject> Children => children;
+    // Buffer used to iterate over components safely
+    // to avoid modification during iteration
+    private readonly List<Component> iterationBuffer = new();
+    
     public void AddComponent(Component component)
     {
         if (component.Owner != null)
@@ -25,6 +31,7 @@ public abstract class SceneObject
         }
         return null;
     }
+    
     public void SetParent(SceneObject? newParent)
     {
         if (Parent == newParent) return;
@@ -35,8 +42,11 @@ public abstract class SceneObject
         Parent = newParent;
         Parent?.children.Add(this);
     }
+
     internal virtual void Start() {
-        foreach (var component in components.ToList())
+        iterationBuffer.Clear();
+        iterationBuffer.AddRange(components);
+        foreach (var component in iterationBuffer)
         {
             if (component.HasStarted) continue;
             component.HasStarted = true;
@@ -48,10 +58,12 @@ public abstract class SceneObject
         // its fine for so many components, 
         // but could become a performance issue with a large number of components
         Start();
-        foreach (var component in components.ToList())
+        iterationBuffer.Clear();
+        iterationBuffer.AddRange(components);
+        foreach (var component in iterationBuffer)
             component.Update();
         // this is seperate from regular Update
-        foreach (var component in components.ToList())
+        foreach (var component in iterationBuffer)
             component.UpdateCoroutines();
     }
     public void Destroy()
