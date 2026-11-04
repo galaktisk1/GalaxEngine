@@ -7,8 +7,12 @@ public static class Engine
     public static int Height => GetScreenHeight();
     public static Vector2 Center => new Vector2(Width / 2f, Height / 2f);
     public static int TargetFPS = 60;
+    private static bool running;
     public static void Start<T>(int width = 800, int height = 600) where T : Scene, new()
     {
+        if (running) 
+            throw new InvalidOperationException("Engine has already been started. Use SceneManager.LoadScene to switch scenes.");
+        running = true;
         SceneManager.LoadScene<T>();
         SetConfigFlags(ConfigFlags.ResizableWindow);
         InitWindow(width, height, "GameLoop");

@@ -31,6 +31,11 @@ public class UpdateComponent : Component
         Transform.Position += direction.Normalized * speed * Time.DeltaTime;
         if (Input.GetKey(KeyboardKey.Q)) Transform.Rotation -= 2f * Time.DeltaTime;
         if (Input.GetKey(KeyboardKey.E)) Transform.Rotation += 2f * Time.DeltaTime;
+
+
+        // debug scene switch
+        if (Input.GetKeyDown(KeyboardKey.Backspace))
+            SceneManager.LoadScene<TitleScene>();
     }
     private IEnumerator Fire()
     {

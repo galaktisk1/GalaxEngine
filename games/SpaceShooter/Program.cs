@@ -4,6 +4,6 @@ class Program
 {
     static void Main(string[] args)
     {
-        Engine.Start<MainScene>();
+        Engine.Start<TitleScene>();
     }    
 }
