@@ -3,17 +3,28 @@ namespace GalaxEngine;
 // GameObject and LogicObject will inherit from this class
 public abstract class SceneObject
 {
+    public string Name { get; set; } = "";
+    public HashSet<string> Tags { get; } = new();
+    
+    public bool MarkForDestroy { get; private set; }
+    
     public IReadOnlyList<Component> Components => components;
     private readonly List<Component> components = new List<Component>();
-    public bool MarkForDestroy { get; private set; }
+    
     public SceneObject? Parent { get; private set; }
-    
     private readonly List<SceneObject> children = new List<SceneObject>();
-    
     public IReadOnlyList<SceneObject> Children => children;
+    
     // Buffer used to iterate over components safely
     // to avoid modification during iteration
     private readonly List<Component> iterationBuffer = new();
+
+    protected SceneObject(string name = "", string[]? tags = null)
+    {
+        Name = name;
+        foreach (var tag in tags ?? [])
+            Tags.Add(tag);
+    }
     public T AddComponent<T>(T component, Action<T>? configure = null) where T : Component
     {
         // This is for the AddComponent(new Component()) syntax
@@ -77,18 +88,24 @@ public abstract class SceneObject
         foreach (var child in children)
             child.Destroy();
     }
+
+    public static SceneObject? Find(string name) => SceneManager.CurrentScene.Find(name);
+    public static List<SceneObject> FindWithTag(string tag) => SceneManager.CurrentScene.FindWithTag(tag);
+    public static List<T> FindComponents<T>() where T : Component => SceneManager.CurrentScene.FindComponents<T>();
 }
 
 public class LogicObject : SceneObject
 {
-    // no specific code yet
+    public LogicObject(string name = "", string[]? tags = null) : base(name, tags) { }
 }
 
 public class GameObject : SceneObject
 {
     public Transform Transform { get; }
-    public GameObject()
+    public string Layer { get; set; }
+    public GameObject(string name = "", string[]? tags = null, string layer = "default") : base(name, tags)
     {
+        Layer = layer;
         Transform = new Transform();
         AddComponent(Transform);
     }

@@ -24,7 +24,7 @@ public static class Engine
             Input.Update();
             SceneManager.CurrentScene.Update();
             BeginDrawing();
-            ClearBackground(Color.White);
+            ClearBackground(Camera.Main.BackgroundColor);
             SceneManager.CurrentScene.Draw();
             // debug fps
             DrawFPS(10, 10);
