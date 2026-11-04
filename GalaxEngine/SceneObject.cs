@@ -14,14 +14,21 @@ public abstract class SceneObject
     // Buffer used to iterate over components safely
     // to avoid modification during iteration
     private readonly List<Component> iterationBuffer = new();
-    
-    public void AddComponent(Component component)
+    public T AddComponent<T>(T component, Action<T>? configure = null) where T : Component
     {
+        // This is for the AddComponent(new Component()) syntax
         if (component.Owner != null)
             throw new InvalidOperationException("Component already has an owner.");
-        components.Add(component);
         component.Owner = this;
+        // equivalent to Object.assign(component, configure) in JavaScript
+        configure?.Invoke(component);
+        components.Add(component);
+        return component;
     }
+
+    public T AddComponent<T>(Action<T>? configure = null) where T : Component, new()
+        // This is for the AddComponent<Component>() syntax
+        => AddComponent(new T(), configure);
     public T? GetComponent<T>() where T : Component
     {
         foreach (var component in components)
@@ -54,9 +61,6 @@ public abstract class SceneObject
         }
     }
     internal virtual void Update() {
-        // something to know for later, this doesnt scale well
-        // its fine for so many components, 
-        // but could become a performance issue with a large number of components
         Start();
         iterationBuffer.Clear();
         iterationBuffer.AddRange(components);
