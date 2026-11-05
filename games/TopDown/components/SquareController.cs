@@ -5,7 +5,7 @@ public class SquareController : Component
 {
     public float Speed = 50;
 
-    public override void Update()
+    public override void FixedUpdate()
     {
         if (Input.GetKey(KeyboardKey.Right))
             Transform.Position.X += Time.DeltaTime * Speed;

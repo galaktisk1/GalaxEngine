@@ -6,6 +6,7 @@ public class LaserGameObject : GameObject
     public LaserGameObject() : base("Laser", layer: "lasers")
     {
         AddComponent<LaserController>();
+        AddComponent<Rigidbody>();
         AddComponent<MovementComponent>();
         AddComponent(new Polygon { FillColor = Color.Red, Points = Assets.Triangle });
         Transform.Scale = new Vector2(3, 8);

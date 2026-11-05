@@ -28,13 +28,15 @@ public abstract class Scene
     {
         pending.Add(sceneObject);
     }
-    public T Instantiate<T>(T gameObject, Vector2 position) where T : GameObject
+    public T Instantiate<T>(T gameObject, Vector2? position = null, float? rotation = null, Vector2? scale = null) where T : GameObject
     {
-        gameObject.Transform.Position = position;
-        Instantiate(gameObject);
+        if (position is Vector2 p) gameObject.Transform.Position = p;
+        if (rotation is float r) gameObject.Transform.Rotation = r;
+        if (scale is Vector2 s) gameObject.Transform.Scale = s;
+        pending.Add(gameObject);
         return gameObject;
     }
-    
+
     public virtual void Update()
     {
         iterationBuffer.Clear();
@@ -45,6 +47,8 @@ public abstract class Scene
             SceneObjects.Add(sceneObject);
             sceneObject.Start();
         }
+        foreach (var sceneObject in SceneObjects)
+            sceneObject.FixedUpdate();
         Physics.Step();
         foreach (var sceneObject in SceneObjects)
             sceneObject.Update();
@@ -77,10 +81,13 @@ public abstract class Scene
     {
         foreach (var sceneObject in SceneObjects)
         {
-            if (!sceneObject.MarkForDestroy) continue;
-            sceneObject.SetParent(null);
-            foreach (var component in sceneObject.Components)
-                component.OnDestroy();
+            if (sceneObject.MarkForDestroy)
+            {
+                sceneObject.SetParent(null);
+                foreach (var component in sceneObject.Components)
+                    component.MarkForDestroy = true;
+            }
+            sceneObject.RemoveDestroyedComponents();
         }
         SceneObjects.RemoveAll(o => o.MarkForDestroy);
     }
@@ -129,5 +136,4 @@ public abstract class Scene
                     found.Add(matched);
         return found;
     }
-
 }

@@ -5,6 +5,7 @@ public class EnemyGameObject : GameObject
 {
     public EnemyGameObject() : base("Enemy", ["Enemy"], "ships")
     {
+        AddComponent<Rigidbody>();
         AddComponent<MovementComponent>();
         AddComponent<Collider>();
         AddComponent(new Polygon { FillColor = Color.Green, Points = Assets.Triangle });

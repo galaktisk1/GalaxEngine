@@ -48,6 +48,7 @@ public class MainScene : Scene
             FillColor = Color.Blue
         });
         rectangle.AddComponent(new Collider());
+        rectangle.AddComponent(new Rigidbody());
         rectangle.Transform.Position = new Vector2(200, 200);
         Instantiate(rectangle);
     }

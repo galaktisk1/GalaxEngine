@@ -4,6 +4,7 @@ public abstract class Component
 {
     public SceneObject Owner { get; internal set; } = null!;
     public bool HasStarted { get; internal set; }
+    public bool MarkForDestroy { get; internal set; }
     private readonly List<IEnumerator> coroutines = new List<IEnumerator>();
     private readonly List<IEnumerator> coroutineBuffer = new();
 
@@ -40,13 +41,35 @@ public abstract class Component
         }
     }
 
+    public static void Destroy(Component? component)
+    {
+        if (component == null || component.MarkForDestroy)
+        {
+            Console.WriteLine("Component is null or already marked for destroy.");
+            return;
+        }
+        if (component is Transform)
+        {
+            Console.WriteLine("Cannot destroy Transform component.");
+            return;
+        }
+        component.MarkForDestroy = true;
+    }
     // these empty virtual methods function the same as javascripts ?. operator
     public virtual void Start() { }
     public virtual void Update() { }
+    public virtual void FixedUpdate() { }
     public virtual void Draw() { }
     public virtual void OnDestroy() { }
+    public virtual void OnMouseEnter() { }
     public virtual void OnMouseOver() { }
+    public virtual void OnMouseExit() { }
+    public virtual void OnCollisionEnter(GameObject other, Vector2 mtv) { }
     public virtual void OnCollisionStay(GameObject other, Vector2 mtv) { }
+    public virtual void OnCollisionExit(GameObject other, Vector2 mtv) { }
+    public virtual void OnOverlapEnter(GameObject other) { }
+    public virtual void OnOverlapStay(GameObject other, Vector2 mtv) { }
+    public virtual void OnOverlapExit(GameObject other) { }
 }
 
 // Below are descriptions for specialized engine-level component types

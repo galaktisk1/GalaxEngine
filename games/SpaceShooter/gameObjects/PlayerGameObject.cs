@@ -7,6 +7,7 @@ public class PlayerGameObject : GameObject
     {
         AddComponent<UpdateComponent>();
         AddComponent<Collider>();
+        AddComponent<Rigidbody>();
         AddComponent<MovementComponent>();
         AddComponent(new Polygon { FillColor = Color.Black, Points = Assets.Triangle });
         Transform.Scale = new Vector2(30, 30);
