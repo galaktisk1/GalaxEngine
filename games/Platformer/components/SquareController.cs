@@ -1,9 +1,11 @@
+using System.Collections;
 using GalaxEngine;
 using Raylib_cs;
 namespace Platformer;
+
 public class SquareController : Component
 {
-    public float Speed = 50;
+    public float Speed = 50 * 2;
     // set every FixedUpdate, then cleared by OnCollisionStay if we're touching something
     private bool hasJumped = false;
     private float lastJumpTime = float.NegativeInfinity;
@@ -12,14 +14,15 @@ public class SquareController : Component
     public override void Start()
     {
         rigidbody = GetComponent<Rigidbody>()!;
+        //StartCoroutine(Test());
     }
 
     public override void FixedUpdate()
     {
         if (Input.GetKey(KeyboardKey.Right) || Input.GetKey(KeyboardKey.D))
-            Transform.Position.X += Time.DeltaTime * Speed;
+            Transform.Position.X += Time.FixedDeltaTime * Speed;
         if (Input.GetKey(KeyboardKey.Left) || Input.GetKey(KeyboardKey.A))
-            Transform.Position.X -= Time.DeltaTime * Speed;
+            Transform.Position.X -= Time.FixedDeltaTime * Speed;
 
         hasJumped = true;
     }
@@ -34,6 +37,9 @@ public class SquareController : Component
         // holding jump keeps the upward speed for a moment, so taps hop and holds go higher
         if (Input.GetKey(KeyboardKey.Space) && Time.TimeSinceStart - lastJumpTime < 0.3f)
             rigidbody.Velocity = new Vector2(rigidbody.Velocity.X, -Speed * 2);
+
+        if (Input.GetKeyUp(KeyboardKey.C))
+            SceneManager.CurrentScene.Instantiate(new CoinGameObject(), new Vector2(50, 0));
 
         Camera.Main.Transform.Position = Transform.Position;
     }
@@ -50,5 +56,14 @@ public class SquareController : Component
             hasJumped = false;
         else if (mtv.Y > 0)
             lastJumpTime = float.NegativeInfinity;
+    }
+
+    private IEnumerator Test()
+    {
+        while (true)
+        {
+            Console.WriteLine("Time passed: " + Time.TimeSinceStart);
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

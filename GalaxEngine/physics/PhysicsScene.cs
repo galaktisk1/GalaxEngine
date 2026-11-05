@@ -4,16 +4,34 @@ public class PhysicsScene
 {
     public Scene Scene { get; }
     private GameObject? lastMouseOverObject;
+    private float accumulator;
+    private const int MaxStepsPerFrame = 5;
+    public float PixelsPerMeter { get; set; } = 50;
+    public float GravityStrength { get; set; } = 9.81f;
+    public float FloorGravity => GravityStrength * PixelsPerMeter;
 
     public PhysicsScene(Scene scene)
     {
         Scene = scene;
     }
 
-    internal void Step()
+    internal void Simulate()
     {
         UpdateMouseOver();
-        UpdateCollisions();
+        accumulator += Time.DeltaTime;
+        int steps = 0;
+        while (accumulator >= Time.FixedDeltaTime && steps < MaxStepsPerFrame)
+        {
+            foreach (var sceneObject in Scene.SceneObjects)
+                sceneObject.FixedUpdate();
+            foreach (var rigidbody in Scene.FindComponents<Rigidbody>())
+                rigidbody.Integrate(Time.FixedDeltaTime, FloorGravity);
+            UpdateCollisions();
+            accumulator -= Time.FixedDeltaTime;
+            steps++;
+        }
+        if (steps == MaxStepsPerFrame)
+            accumulator = 0;
     }
 
     private void UpdateMouseOver()
@@ -58,21 +76,33 @@ public class PhysicsScene
 
                 if (Collisions.PolygonPolygon(goA, goB, out var mtv))
                 {
+                    // BLOCK BRANCH
                     if (response == CollisionResponse.Block)
                     {
                         goA.BroadcastMessage(c => c.OnCollisionStay(goB, mtv));
                         goB.BroadcastMessage(c => c.OnCollisionStay(goA, -mtv));
-                        if (goARigbod != null && goBRigbod != null)
+
+                        float invA = goARigbod?.InverseMass ?? 0f;
+                        float invB = goBRigbod?.InverseMass ?? 0f;
+                        float invSum = invA + invB;
+                        // push out of the overlap, lighter body moves more
+                        goA.Transform.Position += mtv * (invA / invSum);
+                        goB.Transform.Position -= mtv * (invB / invSum);
+
+                        // exchange momentum along the collision normal
+                        var n = mtv.Normalized;
+                        var vA = goARigbod?.Velocity ?? Vector2.Zero;
+                        var vB = goBRigbod?.Velocity ?? Vector2.Zero;
+                        float approach = Vector2.Dot(vA - vB, n);
+                        if (approach < 0)
                         {
-                            goA.Transform.Position += mtv * 0.5f;
-                            goB.Transform.Position -= mtv * 0.5f;
+                            float e = MathF.Max(goARigbod?.Bounciness ?? 0f, goBRigbod?.Bounciness ?? 0f);
+                            float impulse = -(1 + e) * approach / invSum;
+                            if (goARigbod != null) goARigbod.Velocity += n * (impulse * invA);
+                            if (goBRigbod != null) goBRigbod.Velocity -= n * (impulse * invB);
                         }
-                        else if (goARigbod != null)
-                            goA.Transform.Position += mtv;
-                        else if (goBRigbod != null)
-                            goB.Transform.Position -= mtv;
                     }
-                    else // response == CollisionResponse.Overlap
+                    else // OVERLAP BRANCH
                     {
                         goA.BroadcastMessage(c => c.OnOverlapStay(goB, mtv));
                         goB.BroadcastMessage(c => c.OnOverlapStay(goA, -mtv));

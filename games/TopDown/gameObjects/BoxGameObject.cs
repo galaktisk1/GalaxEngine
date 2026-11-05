@@ -7,7 +7,7 @@ public class BoxGameObject : GameObject
     {
         AddComponent(new Polygon { FillColor = Color.Orange, Points = Assets.Square });
         AddComponent<Collider>();
-        AddComponent<Rigidbody>();
+        AddComponent<Rigidbody>(rb => { rb.Mass = 2; rb.Friction = 0.3f; rb.StaticFriction = 0.4f; rb.Bounciness = 0.8f; });
         Transform.Scale = new Vector2(11, 11);
     }
 }

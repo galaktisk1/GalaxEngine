@@ -47,9 +47,7 @@ public abstract class Scene
             SceneObjects.Add(sceneObject);
             sceneObject.Start();
         }
-        foreach (var sceneObject in SceneObjects)
-            sceneObject.FixedUpdate();
-        Physics.Step();
+        Physics.Simulate();
         foreach (var sceneObject in SceneObjects)
             sceneObject.Update();
 

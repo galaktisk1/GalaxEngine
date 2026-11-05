@@ -3,6 +3,7 @@ using static Raylib_cs.Raylib;
 public static class Time
 {
     public static float DeltaTime { get; private set; }
+    public static float FixedDeltaTime { get; set; } = 1f / 60f;
     public static float UnscaledDeltaTime { get; private set; }
     public static float UnscaledTime { get; private set; }
     public static float TimeSinceStart { get; private set; }

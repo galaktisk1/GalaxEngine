@@ -29,8 +29,9 @@ public static class Engine
             BeginDrawing();
             ClearBackground(Camera.Main.BackgroundColor);
             SceneManager.CurrentScene.Draw();
-            // debug fps
+            // debug fps and gc
             DrawFPS(10, 10);
+            DrawText($"GC: {GC.CollectionCount(0)}", 10, 30, 20, Color.DarkGreen);
             EndDrawing();
         }
         SceneManager.CurrentScene.Unload();
